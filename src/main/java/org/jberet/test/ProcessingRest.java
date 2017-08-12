@@ -1,5 +1,8 @@
 package org.jberet.test;
 
+import org.jberet.test.cdi.SomeProcessingService;
+
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
@@ -9,10 +12,13 @@ import javax.ws.rs.Path;
 @Path("process")
 public class ProcessingRest {
 
+    @Inject
+    private SomeProcessingService processingService;
+
     @GET
     @Path("hello")
     public String hello(){
-        return "Hello";
+        return processingService.produceHello();
     }
 
 }
