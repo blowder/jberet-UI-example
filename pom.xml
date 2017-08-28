@@ -41,6 +41,37 @@
             <artifactId>javax.inject</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.batch</groupId>
+            <artifactId>jboss-batch-api_1.0_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jberet</groupId>
+            <artifactId>jberet-core</artifactId>
+            <version>LATEST</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jberet</groupId>
+            <artifactId>jberet-schedule-executor</artifactId>
+            <version>LATEST</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jberet</groupId>
+            <artifactId>jberet-rest-api</artifactId>
+            <version>LATEST</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -51,6 +82,11 @@
                 <version>3.1.0</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
         </plugins>

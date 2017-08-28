@@ -39,4 +39,11 @@ public class ProcessingRest {
     public List<ProcessingEntity> put() {
         return processingService.getAllProcessedData();
     }
+
+
+    @GET
+    @Path("batch")
+    public void batch() {
+        processingService.batch();
+    }
 }
