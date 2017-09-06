@@ -11,6 +11,7 @@ import org.jberet.test.dao.entities.ProcessingEntity;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by sesshoumaru on 8/13/17.
@@ -35,13 +36,34 @@ public class SomeProcessingService {
     }
 
     public void batch() {
-        JobOperatorImpl jobOperator = (JobOperatorImpl) JobOperatorContext.getJobOperatorContext().getJobOperator();
+        Properties properties = new Properties();
+        properties.put("batchstart", 0);
+        properties.put("batchstop", 5);
+        Properties properties1 = new Properties();
+        properties1.put("batchstart", 6);
+        properties1.put("batchstop", 10);
 
+        JobOperatorImpl jobOperator = (JobOperatorImpl) JobOperatorContext.getJobOperatorContext().getJobOperator();
         Job job = new JobBuilder("MyJob")
+                .restartable(true)
+                .step(new StepBuilder("stepId")
+                        .reader("intReader",
+                                new String[]{"start", "#{partitionPlan['batch.start']}"},
+                                new String[]{"stop", "#{partitionPlan['batch.stop']}"})
+                        .processor("intProcessor", new Properties())
+                        .writer("intWriter", new Properties())
+                        //.partitionPlan(2, 2,Arrays.asList(properties,properties1))
+                        .partitionMapper("intMapper")
+
+                        /*.partitionMapper("intMapper")*/
+                        .build()
+                ).build();
+
+        /*Job job = new JobBuilder("MyJob")
                 .restartable(false)
                 .property("jobk1", "J")
                 .step(new StepBuilder("process").batchlet("myBatchlet").build())
-                .build();
+                .build();*/
 
         jobOperator.start(job, null);
 
